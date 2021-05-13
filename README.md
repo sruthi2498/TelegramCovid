@@ -1,6 +1,6 @@
 # TelegramCovid
 
-### A util to pull chats from telegram channels and parse the messages for Covid vaccine alerts
+### A util to pull chats from telegram channels and parse the messages. This is to ultimately figure out when different hospitals open their vaccination slots.
 
 ## To preview data :
 
