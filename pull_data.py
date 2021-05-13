@@ -36,6 +36,9 @@ def match_pincode(text,ch):
     elif(ch == 'blrvaccine'):
         pattern = re.compile("📫 ([0-9]*)  \#⃣")
         pincode = match(pattern,text)
+    elif(ch=='BLRVaccineQuickAlert'):
+        pattern = re.compile("\*\*Pincode: ([0-9]*)\*\*")
+        pincode = match(pattern,text)
     return pincode
     
 def match_name(text,ch):
@@ -45,6 +48,9 @@ def match_name(text,ch):
         name = match(pattern,text)
     elif(ch == 'blrvaccine' and len(text.split("\n"))>1):
         name = text.split("\n")[1]
+    elif(ch=='BLRVaccineQuickAlert'):
+        pattern = re.compile("\*\*Name: (.*)\*\*")
+        name = match(pattern,text)
     return name
 
 def match_slots(text,ch):
@@ -55,6 +61,9 @@ def match_slots(text,ch):
     elif(ch == 'blrvaccine'):
         pattern = re.compile("#⃣(.+) Slots",flags=re.IGNORECASE)
         slots = match(pattern,text)
+    elif(ch=='BLRVaccineQuickAlert'):
+        pattern = re.compile(": (.+) slots\*\*")
+        slots = match(pattern,text)
     return slots
 
 
@@ -62,7 +71,7 @@ client = TelegramClient('session', api_id, api_hash)
 client.start()
 
 async def main():
-    channels = ['blrvaccine', 'blrvaccinealerts']
+    channels = ['blrvaccine', 'blrvaccinealerts','BLRVaccineQuickAlert']
     for ch in channels:
         channel = await client.get_entity(ch)
         async for x in client.iter_messages(channel):
