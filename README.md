@@ -15,7 +15,7 @@ The list is sorted from maximum slots to minimum.
 
 ## To setup and run :
 
-1.     pip3 install telethon
+1.     pip install -r requirements.txt 
 
 2. Get your Telegram api_id and api_hash from https://my.telegram.org
 

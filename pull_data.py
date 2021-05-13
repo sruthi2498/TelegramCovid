@@ -39,6 +39,9 @@ def match_pincode(text,ch):
     elif(ch=='BLRVaccineQuickAlert'):
         pattern = re.compile("\*\*Pincode: ([0-9]*)\*\*")
         pincode = match(pattern,text)
+    elif(ch=='BloreVaccine'):
+        pattern = re.compile("\*\*([0-9]+)\*\*")
+        pincode = match(pattern,text)
     return pincode
     
 def match_name(text,ch):
@@ -51,6 +54,10 @@ def match_name(text,ch):
     elif(ch=='BLRVaccineQuickAlert'):
         pattern = re.compile("\*\*Name: (.*)\*\*")
         name = match(pattern,text)
+    elif(ch=='BloreVaccine'):
+        line=text.split("\n")[0]
+        pattern = re.compile("(.*)\*\*.*\*\*")
+        name = match(pattern,line)
     return name
 
 def match_slots(text,ch):
@@ -64,22 +71,28 @@ def match_slots(text,ch):
     elif(ch=='BLRVaccineQuickAlert'):
         pattern = re.compile(": (.+) slots\*\*")
         slots = match(pattern,text)
+    elif(ch=='BloreVaccine'):
+        pattern = re.compile("\*\*Available Slots: ([0-9]+)\*\*")
+        slots = match(pattern,text)
     return slots
 
 
 client = TelegramClient('session', api_id, api_hash)
 client.start()
 
+#channels = ['blrvaccine', 'blrvaccinealerts','BLRVaccineQuickAlert','BloreVaccine']
+channels = ['BloreVaccine']
 async def main():
-    channels = ['blrvaccine', 'blrvaccinealerts','BLRVaccineQuickAlert']
     for ch in channels:
         channel = await client.get_entity(ch)
         async for x in client.iter_messages(channel):
             if(x.text):
+                #print(x.text)
                 pincode = match_pincode(x.text,ch)
                 name = match_name(x.text,ch)
                 local_datetime = x.date.astimezone(tz.tzlocal())
                 slots = match_slots(x.text,ch)
+                #print(pincode,name,slots)
                 row=[str(pincode),local_datetime.month,local_datetime.day,local_datetime.hour,local_datetime.minute,name,slots]
                 if(pincode!=None and name!=None and str(pincode).startswith("560")):
                     writer.writerow(row)
