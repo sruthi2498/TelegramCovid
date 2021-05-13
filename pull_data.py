@@ -80,8 +80,7 @@ def match_slots(text,ch):
 client = TelegramClient('session', api_id, api_hash)
 client.start()
 
-#channels = ['blrvaccine', 'blrvaccinealerts','BLRVaccineQuickAlert','BloreVaccine']
-channels = ['BloreVaccine']
+channels = ['blrvaccine', 'blrvaccinealerts','BLRVaccineQuickAlert','BloreVaccine']
 async def main():
     for ch in channels:
         channel = await client.get_entity(ch)
